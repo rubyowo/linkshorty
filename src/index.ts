@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import "dotenv/config";
 import fastify from "fastify";
 import {
   Type,
@@ -10,7 +10,6 @@ import fastifyStatic from "@fastify/static";
 import path from "node:path";
 import { findEntry, insertData, runMigrations } from "./database.js";
 import { randomBytes } from "node:crypto";
-import normalizeUrl from "normalize-url";
 
 const app = fastify()
   .setValidatorCompiler(TypeBoxValidatorCompiler)
@@ -19,14 +18,14 @@ const port = +(process.env.PORT || 3000);
 const host = process.env.HOST || "localhost";
 const apiURL = new URL(process.env.URL || `http://${host}:${port}`);
 // NOTE: since we're converting bytes to their hex form we divide by 2
-const idLength = +(process.env.ID_LENGTH || 4)/2;
+const idLength = +(process.env.ID_LENGTH || 4) / 2;
 
 app.register(cors);
 app.register(fastifyStatic, {
   root: path.join(import.meta.dirname, "/public"),
   prefix: "/public/",
 });
-app.get("/", (req, res) => res.sendFile("index.html"));
+app.get("/", (_, res) => res.sendFile("index.html"));
 
 const rand = () => randomBytes(idLength).toString("hex");
 app.post(
@@ -38,16 +37,11 @@ app.post(
       }),
     },
   },
-  async (req, res) => {
-    try {
-      const url = normalizeUrl(req.body.url);
-      const slug = rand();
-      await insertData(slug, url);
-      return new URL(slug, apiURL).href;
-    } catch (e) {
-      console.error(e);
-      return res.status(500).send(e);
-    }
+  async (req, _) => {
+    const url = new URL(req.body.url).href;
+    const slug = rand();
+    await insertData(slug, url);
+    return new URL(slug, apiURL).href;
   }
 );
 
@@ -71,7 +65,7 @@ app.get(
   }
 );
 
-await runMigrations()
+await runMigrations();
 app.listen({ port, host }, (err, address) => {
   if (err) {
     console.error(err);
