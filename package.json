@@ -1,0 +1,38 @@
+{
+  "name": "link-shorty",
+  "version": "1.0.0",
+  "description": "An incredibly over-complicated over-engineered link shortener with minimal featuresr",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf build && npm run copy-files && tsc",
+    "copy-files": "copyfiles -u 1 src/**/*.html src/**/*.css src/**/*.js build/",
+    "prestart": "npm run build",
+    "start": "node ."
+  },
+  "author": "rubyowo",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.12.0",
+    "@types/pg": "^8.11.11",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.2.16",
+    "@fastify/cors": "^10.0.2",
+    "@fastify/static": "^8.0.4",
+    "@fastify/type-provider-typebox": "^5.1.0",
+    "@sinclair/typebox": "^0.34.14",
+    "better-sqlite3": "^11.8.1",
+    "dotenv": "^16.0.0",
+    "fastify": "^5.2.1",
+    "mysql2": "^3.12.0",
+    "normalize-url": "^8.0.1",
+    "pg": "^8.13.1",
+    "rado": "^1.0.15"
+  }
+}

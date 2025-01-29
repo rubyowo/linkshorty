@@ -1,0 +1,10 @@
+services:
+  linkshorty:
+    build: .
+    container_name: linkshorty
+    restart: always
+    env_file: .env
+    ports:
+      - '${PORT:-3000}:${PORT:-3000}'
+    #volumes:
+      #- ./db:/data/db
