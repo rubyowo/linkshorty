@@ -8,7 +8,13 @@ import {
 import cors from "@fastify/cors";
 import fastifyStatic from "@fastify/static";
 import path from "node:path";
-import { findEntry, insertData, runMigrations } from "./database.js";
+import {
+	findEntriesByURL,
+	findEntryBySlug,
+	insertData,
+	listAllEntries,
+	runMigrations,
+} from "./database.js";
 import { randomBytes } from "node:crypto";
 
 const app = fastify()
@@ -34,14 +40,24 @@ app.post(
 		schema: {
 			body: Type.Object({
 				url: Type.String(),
+				generate: Type.Boolean(),
 			}),
 		},
 	},
 	async (req, _) => {
-		const url = new URL(req.body.url).href;
-		const slug = rand();
-		await insertData(slug, url);
-		return new URL(slug, apiURL).href;
+		const { url, generate } = req.body;
+		const newURL = new URL(url).href;
+		if (generate) {
+			const slug = rand();
+			await insertData(slug, newURL);
+
+			return new URL(slug, apiURL).href;
+		}
+
+		const prexisting = await findEntriesByURL(newURL);
+		if (prexisting[0]) {
+			return new URL(prexisting[0].slug, apiURL).href;
+		}
 	},
 );
 
@@ -57,7 +73,7 @@ app.get(
 	async (req, res) => {
 		try {
 			const { slug } = req.params;
-			const { url } = await findEntry(slug);
+			const { url } = await findEntryBySlug(slug);
 			return res.redirect(url);
 		} catch (e) {
 			return res.status(404).send(e);

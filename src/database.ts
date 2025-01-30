@@ -82,9 +82,20 @@ export const runMigrations = async () => {
 	// HACK: rado doesn't give us a way to only create the database if it doesn't exist
 	await db.create(Links).catch(() => {});
 };
-export const findEntry = async (slug: string) =>
+
+// @ts-ignore
+export const listAllEntries = async () => await db.select().from(Links);
+
+export const findEntryBySlug = async (slug: string) =>
 	// @ts-ignore
 	(await db.select().from(Links).where(eq(Links.slug, slug)).limit(1))[0];
+
+export const findEntriesByURL = (url: string) =>
+	db
+		.select()
+		// @ts-ignore
+		.from(Links)
+		.where(eq(Links.url, url));
 
 export const insertData = (slug: string, url: string) =>
 	db.insert(Links).values({ slug, url });

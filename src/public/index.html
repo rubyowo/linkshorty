@@ -6,15 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Link Shorty</title>
     <link rel="stylesheet" href="/public/style.css" />
+    <script defer src="/public/script.js"></script>
   </head>
   <body>
-    <h1>Hello There!</h1>
+    <div id="content">
+    <h1>Link Shorty</h1>
     <p>Enter a URL below to shorten it.</p>
-    <textarea id="url" rows="1" cols="80" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></textarea>
+    <textarea id="url" rows="1" cols="80" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="https://example.org"></textarea>
+    <br />
+    <br />
+    <label id="generate">
+      <input type="checkbox" id="generateCheckbox"/> Generate a new link?
+    </label>
     <br />
     <br />
     <button id="shorten" type="submit">Shorten</button>
     <code id="result"></code>
+    </div>
   </body>
-  <script defer src="/public/script.js"></script>
 </html>

@@ -1,5 +1,6 @@
-const textarea = document.querySelector("textarea");
-const button = document.querySelector("button");
+const url = document.getElementById("url");
+const generateCheckbox = document.getElementById("generateCheckbox");
+const button = document.getElementById("shorten");
 const output = document.getElementById("result");
 
 async function main() {
@@ -10,11 +11,13 @@ async function main() {
 		const res = await fetch("/api/new", {
 			method: "POST",
 			headers: headers,
-			body: JSON.stringify({ url: textarea.value }),
+			body: JSON.stringify({
+				url: url.value,
+				generate: generateCheckbox.checked,
+			}),
 		});
 		const content = res.ok ? await res.text() : (await res.json()).message;
 		output.textContent = content;
-		console.log(content);
 	} catch (err) {
 		alert(`Error: ${err}`);
 		console.error(err);
@@ -26,7 +29,6 @@ button.addEventListener("click", async () => {
 });
 
 document.addEventListener("keydown", async (e) => {
-	e = e || window.event || event;
 	if (e.ctrlKey && e.key === "Enter") {
 		e.preventDefault();
 		await main();

@@ -1,42 +1,76 @@
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #1e1e2e;
+	}
+
+	* {
+		color: #cdd6f4;
+	}
+
+	textarea,
+	button {
+		background-color: #45475a;
+		border: 2px solid #313244;
+	}
+
+	textarea::placeholder {
+		color: #a6adc8;
+	}
+
+	input[type="checkbox"] {
+		background-color: #313244;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	body {
+		background-color: #eff1f5;
+	}
+
+	* {
+		color: #4c4f69;
+	}
+
+	textarea,
+	button {
+		background-color: #bcc0cc;
+		border: 2px solid #ccd0da;
+	}
+
+	textarea::placeholder {
+		color: #6c6f85;
+	}
+}
+
 body {
-	background-color: #2e3440;
 	text-align: center;
 }
 
 * {
-	color: #e5e9f0;
 	padding: 0.5rem;
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1.5rem;
+}
+
+#app {
+	text-align: center;
 }
 
 h1 {
 	font-size: 3rem;
-	margin-bottom: 0.5rem;
+	margin: 0;
 }
 
 p {
-	font-size: 1.5rem;
-	margin-bottom: 1rem;
+	margin: 0.25rem 0;
 }
 
 button {
-	background-color: #434c5e;
-	border: 1px solid #202020;
 	border-radius: 0.5rem;
-	box-shadow: 0 0 0.5rem #202020;
-	outline: #202020;
 }
 
 textarea {
-	text-align: center;
-	width: 75%;
 	margin: auto;
-	border: 1px solid #202020;
 	border-radius: 0.5rem;
-	background-color: #434c5e;
-	box-shadow: 0 0 0.5rem #202020;
 	resize: both;
 	font-size: 1rem;
-	outline: #202020;
 }
