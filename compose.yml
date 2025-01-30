@@ -8,3 +8,16 @@ services:
       - '${PORT:-3000}:${PORT:-3000}'
     #volumes:
       #- ./db:/data/db
+      #- ./sqlite.db:/data/sqlite.db
+  
+  #postgres:
+    #image: postgres:17-alpine
+    #env_file: .env
+    #volumes:
+      #- ./db:/var/lib/postgresql/data
+
+  #mariadb:
+    #image: ghcr.io/yobasystems/alpine-mariadb:11
+    #env_file: .env
+    #volumes:
+      #- ./db:/var/lib/mysql

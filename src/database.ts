@@ -1,7 +1,11 @@
 import * as driver from "rado/driver"
-import { eq, internalTable, SyncDatabase, table } from "rado";
+import { eq, table } from "rado";
 import { id, text } from "rado/universal";
+
 import { PGlite } from "@electric-sql/pglite";
+import { createPool as mysqlPool } from "mysql2/promise"
+import pg from "pg"
+import sqliteDatabase from "better-sqlite3"
 
 type AvailableDrivers =
   | 'mysql2'
@@ -23,12 +27,42 @@ type DatabaseDeclaration =
   | DatabaseOption<'@electric-sql/pglite'>
   | DatabaseOption<'better-sqlite3'>
 
-// TODO: Somehow find a way to generate this from the .env
-const dbConfig: DatabaseDeclaration = {
-  driver: "@electric-sql/pglite",
-  client: new PGlite()
+const dbConnection = (): DatabaseDeclaration => {
+  switch (process.env.DATABASE_TYPE) {
+    case "mysql": {
+      if (!process.env.MYSQL_CONNECTION_URL) throw new Error("MYSQL_CONNECTION_URL not set")
+      return {
+        driver: "mysql2",
+        client: mysqlPool(process.env.MYSQL_CONNECTION_URL)
+      }
+    }
+    case "postgres": {
+      if (!process.env.POSTGRES_CONNECTION_URL) throw new Error("POSTGRES_CONNECTION_URL not set")
+      return {
+        driver: "pg",
+        client: new pg.Pool({connectionString: process.env.POSTGRES_CONNECTION_URL})
+      }
+    }
+    case "sqlite": {
+      return {
+        driver: "better-sqlite3",
+        client: new sqliteDatabase(process.env.SQLITE_DATABASE)
+      }
+    }
+    case "pglite": {
+      return {
+        driver: "@electric-sql/pglite",
+        client: new PGlite(process.env.PGLITE_DATA_DIR)
+      }
+    }
+    default: {
+      throw new Error("DATABASE_TYPE was not set or is not one of the following values: mysql, postgres, sqlite, pglite")
+    }
+  }
 }
 
+const dbConfig = dbConnection()
+// @ts-ignore
 export const db = driver[dbConfig.driver](dbConfig.client);
 
 const Links = table("links", {
@@ -43,6 +77,7 @@ export const runMigrations = async () => {
   await db.create(Links).catch(() => {})
 };
 export const findEntry = async (slug: string) =>
+  // @ts-ignore
   (await db.select().from(Links).where(eq(Links.slug, slug)).limit(1))[0];
 
 export const insertData = (slug: string, url: string) =>
