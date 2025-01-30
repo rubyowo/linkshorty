@@ -1,42 +1,42 @@
 body {
-    background-color: #2e3440;
-    text-align: center;
+	background-color: #2e3440;
+	text-align: center;
 }
 
 * {
-    color: #e5e9f0;
-    padding: 0.5rem;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.5rem;
+	color: #e5e9f0;
+	padding: 0.5rem;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.5rem;
 }
 
 h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
+	font-size: 3rem;
+	margin-bottom: 0.5rem;
 }
 
 p {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
 }
 
 button {
-    background-color: #434c5e;
-    border: 1px solid #202020;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 0.5rem #202020;
-    outline: #202020;
+	background-color: #434c5e;
+	border: 1px solid #202020;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 0.5rem #202020;
+	outline: #202020;
 }
 
 textarea {
-    text-align: center;
-    width: 75%;
-    margin: auto;
-    border: 1px solid #202020;
-    border-radius: 0.5rem;
-    background-color: #434c5e;
-    box-shadow: 0 0 0.5rem #202020;
-    resize: both;
-    font-size: 1rem;
-    outline: #202020;
+	text-align: center;
+	width: 75%;
+	margin: auto;
+	border: 1px solid #202020;
+	border-radius: 0.5rem;
+	background-color: #434c5e;
+	box-shadow: 0 0 0.5rem #202020;
+	resize: both;
+	font-size: 1rem;
+	outline: #202020;
 }
